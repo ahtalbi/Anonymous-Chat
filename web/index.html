@@ -8,27 +8,25 @@
 </head>
 
 <body>
-    <form id="userInfos">
+    <h1>hello world</h1>
         <h3>Name:</h3>
         <input type="text" name="name" placeholder="Name ..." id="name">
         <button>enter the chat</button>
     </form>
     <script>
+        const websocket = new WebSocket("ws://localhost:3000/u");
+        
+        websocket.addEventListener("open", (event) => {
+            websocket.send("Hello Server!");
+        });
+
         let form = document.getElementById("userInfos");
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
             let payload = {
                 name: form.name.value,
             }
-            let websocket = new WebSocket("ws://localhost:3000/u")
-            let res = await fetch(, {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(payload)
-            })
-            console.log(res);
-            let data = await res.json();
-            console.log(data);
+            websocket.send(JSON.stringify(payload));
         })
     </script>
 </body>
