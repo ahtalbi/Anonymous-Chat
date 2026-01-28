@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="userInfos">
+        <h3>Name:</h3>
+        <input type="text" name="name" placeholder="Name ..." id="name">
+        <button>enter the chat</button>
+    </form>
+    <script>
+        let form = document.getElementById("userInfos");
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            let payload = {
+                name: form.name.value,
+            }
+            let websocket = new WebSocket("ws://localhost:3000/u")
+            let res = await fetch(, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(payload)
+            })
+            console.log(res);
+            let data = await res.json();
+            console.log(data);
+        })
+    </script>
+</body>
+
+</html>
