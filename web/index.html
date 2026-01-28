@@ -8,13 +8,13 @@
 </head>
 
 <body>
-    <h1>hello world</h1>
+    <form id="userInfos">
         <h3>Name:</h3>
         <input type="text" name="name" placeholder="Name ..." id="name">
         <button>enter the chat</button>
     </form>
     <script>
-        const websocket = new WebSocket("ws://localhost:3000/u");
+        const websocket = new WebSocket("ws://localhost:8080/ws");
         
         websocket.addEventListener("open", (event) => {
             websocket.send("Hello Server!");
