@@ -15,10 +15,8 @@ async function SetCss(base, page) {
 }
 
 async function SetJavaScript(base, page) {
-    let src = API_URL + `/src/pages/${page}/${page}.js`;
+    let src = `${base}${page}/${page}.js`;
     if (!(await fileExists(src, "js"))) return;
-    console.log(src);
-
     document.querySelectorAll('script[data-page-script]').forEach(s => s.remove());
     let script = document.createElement("script");
     script.type = "module";

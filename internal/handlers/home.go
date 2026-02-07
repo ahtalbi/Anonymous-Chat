@@ -9,7 +9,7 @@ import (
 
 var fs = http.FileServer(http.Dir("web"))
 
-func Home(w http.ResponseWriter, r *http.Request) {
+func (h *Handlers) Home(w http.ResponseWriter, r *http.Request) {
 	path := filepath.Join("web", filepath.Clean(r.URL.Path))
 
 	log.Println(path)

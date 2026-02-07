@@ -7,6 +7,7 @@ import (
 
 	"chat/internal/config"
 	"chat/internal/handlers"
+	"chat/internal/realtime"
 	"chat/internal/router"
 	"chat/internal/server"
 )
@@ -27,12 +28,15 @@ func main() {
 		Env:  env,
 	})
 
+	clientManager := realtime.New()
+	h := handlers.New(clientManager)
+
 	router := router.New(&ser.Config.Mux)
 	router.Routes(map[string]func(w http.ResponseWriter, r *http.Request){
-		"/": handlers.Home,
-		"/api/auth": handlers.Login,
-		"/api/session": handlers.CheckSession,
-		"/api/ws": handlers.Ws,
+		"/": h.Home,
+		"/api/auth": h.Login,
+		"/api/session": h.CheckSession,
+		"/api/ws": h.Ws,
 	})
 
 	ser.Listen()

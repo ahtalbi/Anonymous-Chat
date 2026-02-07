@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-func Ws(w http.ResponseWriter, r *http.Request) {
+func (h *Handlers) Ws(w http.ResponseWriter, r *http.Request) {
 	upgrader := websocket.Upgrader{
 		ReadBufferSize:  1024,
 		WriteBufferSize: 1024,

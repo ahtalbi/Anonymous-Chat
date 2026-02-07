@@ -1,21 +1,44 @@
 package handlers
 
 import (
-	"chat/internal/models"
+	"crypto/rand"
+	"encoding/hex"
 	"encoding/json"
-	"io"
-	"log"
 	"net/http"
+	"time"
+
+	"chat/internal/models"
 )
 
-func Login(w http.ResponseWriter, r *http.Request) {
-	bytes := make([]byte, 1024)
-	_, err := io.Reader.Read(r.Body, bytes)
+func NewSessionID() (string, error) {
+	b := make([]byte, 32) // 256 bits
+	if _, err := rand.Read(b); err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(b), nil
+}
+
+func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
+	client := &models.Client{}
+	err := json.NewDecoder(r.Body).Decode(client)
 	if err != nil {
-		http.Error(w, "error in reading the request", http.StatusInternalServerError)
+		http.Error(w, "error json request : "+err.Error(), http.StatusInternalServerError)
 		return
 	}
-	var client *models.Client
-	err = json.Unmarshal(bytes, client)
-	log.Println(client)
+	sessionId, err := NewSessionID()
+	if err != nil {
+		http.Error(w, "error generate session : "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	client.SessionId = sessionId
+	h.ClientManager.Add(client.Nickname, client)
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     "SessionId",
+		Value:    sessionId,
+		Path:     "/",
+		HttpOnly: true,
+		Expires:  time.Now().Add(time.Minute * 60),
+	})
+	w.WriteHeader(http.StatusOK)
 }
