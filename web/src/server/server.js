@@ -1,4 +1,4 @@
-import { Router } from "../packages/router.js";
+import { Router } from "../../packages/router.js";
 import { RenderPage } from "./utils/render.js";
 
 export function initServer() {
@@ -16,8 +16,7 @@ export function initServer() {
     router.listen(OnError404);
 
     let path = window.location.pathname;
-    console.log(path);
     
-    router.navigate("/login");
+    router.navigate(path);
     // else if (routes[path].auth && )
 }

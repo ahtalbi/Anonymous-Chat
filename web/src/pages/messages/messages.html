@@ -1,5 +1,14 @@
 <style>
-    #chat {
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        justify-content: space-between;
+        width: 100%;
+        height: 100%;
+    }
+
+    #chat-form {
         width: 100%;
         display: flex;
         padding: 10px;
@@ -7,15 +16,27 @@
         justify-content: space-between;
     }
 
-    #chat input {
+    #chat-form input {
         width: 90%;
     }
 
-    #chat button {
+    #chat-form button {
         width: 9%;
     }
+
+    #chat-messages {
+        text-align: start;
+        width: 100%;
+        padding: 10px;
+    }
 </style>
-<form id="chat">
-    <input type="text" name="" id="">
-    <button type="submit">send</button>
-</form>
+<div class="container">
+    <div id="chat-messages">
+        <h1>Anonymos Chat</h1>
+
+    </div>
+    <form id="chat-form">
+        <input type="text" name="" id="">
+        <button type="submit">send</button>
+    </form>
+</div>

@@ -12,20 +12,20 @@ export class Router {
     }
 
     listen(OnError404) {
+        const router = this;
         navigation.addEventListener("navigate", (e) => {
             e.intercept({
                 handler() {
-                    const url = new URL(e.destination.url);
-                    const path = url.pathname;
-                    console.log(url, path);
-                    console.log(this.#Routes);
-                    
-                    if (!this.#Routes[path]) { OnError404(); return }
-                    console.log(this.#Routes[path]);
-                    
-                    this.#Routes[path]();
+                    const path = new URL(e.destination.url).pathname;
+
+                    if (!router.#Routes[path]) {
+                        OnError404();
+                        return;
+                    }
+
+                    router.#Routes[path]();
                 }
-            })
+            });
         });
         return this;
     }
