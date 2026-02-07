@@ -5,38 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    
 </head>
 
 <body>
-    <form id="userInfos">
-        <h3>Name:</h3>
-        <input type="text" name="name" placeholder="Name ..." id="name">
-        <button>enter the chat</button>
-    </form>
-    <script>
-        const websocket = new WebSocket("ws://localhost:8080/ws");
-
-        websocket.addEventListener("open", (event) => {
-            websocket.send("Hello Server!");
-        });
-
-        websocket.addEventListener("close", (e) => {
-            console.log("WS closed:", e.code, e.reason);
-        });
-
-        websocket.addEventListener("error", () => {
-            console.log("WS error");
-        });
-
-        let form = document.getElementById("userInfos");
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            let payload = {
-                name: form.name.value,
-            }
-            websocket.send(JSON.stringify(payload));
-        })
-    </script>
+    <div id="app"></div>
+    <script src="./src/index.js" type="module"></script>    
 </body>
 
 </html>

@@ -30,8 +30,10 @@ func main() {
 	router := router.New(&ser.Config.Mux)
 	router.Routes(map[string]func(w http.ResponseWriter, r *http.Request){
 		"/": handlers.Home,
-		"/ws": handlers.Ws,
+		"/api/auth": handlers.Login,
+		"/api/session": handlers.CheckSession,
+		"/api/ws": handlers.Ws,
 	})
-	
+
 	ser.Listen()
 }
